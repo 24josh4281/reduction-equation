@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>수식·모니터링 인자 편집기</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">수식·모니터링 인자 편집기</div>
+  <input id="title" class="title-input" placeholder="문서 제목 (예: 공조용 필터 방법론 — 산정식 및 모니터링 계획)">
+  <div class="actions">
+    <button id="btn-example" type="button">예시 불러오기</button>
+    <label class="btn" title="방법론·사업계획서 Word 또는 발표 PPT에서 수식과 인자 표를 읽어옵니다">
+      Word/PPT에서 가져오기<input id="file-import" type="file" accept=".docx,.pptx" hidden>
+    </label>
+    <button id="btn-save" type="button">JSON 저장</button>
+    <label class="btn">JSON 열기<input id="file-json" type="file" accept=".json" hidden></label>
+    <button id="btn-docx" type="button" class="primary">Word 내보내기</button>
+    <button id="btn-pptx" type="button" class="primary">PPT 내보내기</button>
+  </div>
+</header>
+
+<main class="layout">
+  <section class="pane editor-pane">
+    <div class="pane-head">
+      <h2>수식 입력 (대충 텍스트)</h2>
+      <div class="options">
+        <select id="opt-form" title="제출 서식">
+          <option value="kcs">KCS 탄소감축인증센터</option>
+          <option value="moe">환경부 외부사업</option>
+        </select>
+        <label><input id="opt-number" type="checkbox" checked> 식 번호 자동</label>
+        <label><input id="opt-values" type="checkbox"> 값 열 표시</label>
+        <select id="opt-font" title="문서 글꼴">
+          <option>Pretendard</option>
+          <option>IBM Plex Sans KR</option>
+          <option>맑은 고딕</option>
+          <option>NanumSquare Neo</option>
+        </select>
+      </div>
+    </div>
+    <textarea id="text" spellcheck="false" placeholder="# 베이스라인 배출량&#10;BEy = BE_MAT,y + BE_ENE,y&#10;BE_MFG,y = sum_j((Q_PJ,j,y * QW_BL,j) * DHC_PJ,j/DHC_BL,j * EF_BL,MFG,j)&#10;&#10;Q_PJ,j,y | y년도 사업필터 제품군 j의 순판매량 | 개/년 | 모니터링"></textarea>
+    <details class="cheat" open>
+      <summary>입력 규칙</summary>
+      <table>
+        <tr><td><code>BE_MFG,y</code></td><td>아래첨자 (빈칸·연산자 전까지)</td></tr>
+        <tr><td><code>Q_{PJ, j}</code></td><td>중괄호 아래첨자</td></tr>
+        <tr><td><code>BEy</code> <code>n0</code></td><td>축약 → BE<sub>y</sub>, n<sub>0</sub></td></tr>
+        <tr><td><code>a * b</code></td><td>곱하기 × (<code>a · b</code> → ·)</td></tr>
+        <tr><td><code>A/B</code></td><td>분수 (붙여 쓰면 양옆 한 항씩)</td></tr>
+        <tr><td><code>a × b / c</code></td><td><code> / </code> 띄우면 앞 곱 전체가 분자</td></tr>
+        <tr><td><code>(a+b)/2</code></td><td>분수에서 바깥 괄호는 빠짐</td></tr>
+        <tr><td><code>sum_j(…)</code></td><td>∑ (<code>sum_{i=1}^{n}</code>, <code>prod</code>)</td></tr>
+        <tr><td><code>x^2</code> <code>(…)^x_a</code></td><td>위첨자</td></tr>
+        <tr><td><code>sqrt(x)</code> <code>bar(DP)_BL,a</code></td><td>근호, 윗줄</td></tr>
+        <tr><td><code>sigma</code> <code>σ</code></td><td>그리스 문자</td></tr>
+        <tr><td><code>… (식 3)</code></td><td>식 번호 직접 지정</td></tr>
+        <tr><td><code># 섹션</code> <code>## 하위</code></td><td>섹션 제목</td></tr>
+        <tr><td><code>&gt; 설명</code></td><td>섹션 설명 문장</td></tr>
+        <tr><td><code>기호 | 정의 | 단위 | 구분 | 값</code></td><td>인자 행 → 아래 인자 표로 이동 (구분: 산출·모니터링·고정)</td></tr>
+        <tr><td><code>$EF_EL$</code></td><td>설명·비고 안의 인라인 수식</td></tr>
+      </table>
+    </details>
+  </section>
+
+  <section class="pane preview-pane">
+    <div class="pane-head"><h2>미리보기</h2><span id="status" class="status"></span></div>
+    <div id="preview" class="preview"></div>
+  </section>
+</main>
+
+<section class="pane issues-pane">
+  <div class="pane-head"><h2>검수</h2><span id="issue-count" class="status"></span></div>
+  <ul id="issues" class="issues"></ul>
+  <details id="info-wrap" class="info"><summary>참고 사항</summary><ul id="infos" class="issues"></ul></details>
+</section>
+
+<section class="pane grid-pane">
+  <div class="pane-head">
+    <h2>인자 사전</h2>
+    <span class="hint">수식에 나온 기호는 자동으로 추가됩니다. 노란 행은 아직 정의를 입력하지 않은 자동 추가 행입니다.</span>
+  </div>
+  <table class="grid">
+    <thead><tr>
+      <th class="c-sym">기호</th><th class="c-symtext">입력 기호</th><th>정의</th>
+      <th class="c-unit">단위</th><th class="c-kind">구분</th><th class="c-value">값</th><th class="c-more"></th>
+    </tr></thead>
+    <tbody id="grid"></tbody>
+  </table>
+</section>
+
+<script src="app.js"></script>
+</body>
+</html>

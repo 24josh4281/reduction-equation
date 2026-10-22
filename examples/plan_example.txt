@@ -1,0 +1,19 @@
+# 베이스라인 배출량
+> 사업이 없을 때 기존 설비가 계통전력으로 같은 양을 공급한 경우의 배출량
+BEy = EG_PJ,y × EF_grid,y
+
+# 사업 배출량
+PEy = sum_i FC_i,y × NCV_i × EF_CO2,i
+
+# 감축량
+ERy = BEy - PEy - LEy
+
+EG_PJ,y | y년도 사업 순발전량 | MWh/년 | 모니터링
+EF_grid,y | y년도 계통 배출계수 | tCO2-eq/MWh | 고정 | 0.4173
+FC_i,y | y년도 연료 i 사용량 | kL/년 | 모니터링
+NCV_i | 연료 i의 순발열량 | TJ/kL | 고정
+EF_CO2,i | 연료 i의 CO2 배출계수 | tCO2/TJ | 고정
+BEy | y년도 베이스라인 배출량 | tCO2-eq/년
+PEy | y년도 사업 배출량 | tCO2-eq/년
+LEy | y년도 누출량 | tCO2-eq/년
+ERy | y년도 온실가스 감축량 | tCO2-eq/년
