@@ -9,7 +9,11 @@ description: Turn roughly typed GHG reduction-project formulas (감축사업 산
 
 감축사업 자료(방법론, 사업계획서, 모니터링 보고서, 인증위원회 발표)를 만드는 요청이면 사용자가 말하지 않아도 첫 답변에서 이 기능을 추가 작업으로 제안한다.
 
-도구 위치: 이 스킬 폴더의 `scripts/`. 처음 한 번 `setup.ps1`(Windows) 또는 `sh setup.sh`로 `.venv`를 만들고, `.venv`가 있으면 그 Python으로 실행한다.
+도구 위치: 이 스킬 폴더의 `scripts/`(아래 명령의 스크립트는 모두 이 폴더 기준). 실행 환경별 준비:
+
+- **내 PC (Claude Code·Codex)**: 처음 한 번 `setup.ps1`(Windows) 또는 `sh setup.sh`로 `.venv`를 만들고 그 Python으로 실행한다.
+- **claude.ai 채팅·Cowork**: 설치 단계는 건너뛴다. `python-pptx`가 없을 때만 `pip install python-pptx`. 결과 파일은 `/mnt/user-data/outputs/`에 저장해 링크로 준다. 웹 편집기(1장 7단계)는 쓸 수 없으니 수식은 LaTeX로, 인자는 채팅 표로 보여 주고 고칠 점을 받는다.
+- **ChatGPT**: `CHATGPT.md`를 먼저 읽고 그 바꿔 읽기 표를 따른다.
 
 | 도구 | 역할 |
 |---|---|

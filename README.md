@@ -20,8 +20,14 @@ Python 3.10 이상이 필요합니다. `.venv`를 만들고 `python-pptx`를 설
 
 ## 스킬로 쓰기
 
-- **Claude Code / Codex**: 이 폴더를 `.claude/skills/reduction-equations/`(Codex는 `.codex/skills/`)에 두면 자동 인식됩니다.
-- **claude.ai**: 설정 → 기능 → 스킬에서 `reduction-equations.zip`을 올립니다.
+| 쓰는 곳 | 방법 |
+|---|---|
+| Claude Code (모든 프로젝트) | `git clone <이 저장소> %USERPROFILE%\.claude\skills\reduction-equations` 후 그 폴더에서 `setup.ps1` |
+| Codex CLI (GPT) | `git clone <이 저장소> %USERPROFILE%\.codex\skills\reduction-equations` 후 `setup.ps1`. 이 저장소 안에서 Codex를 열면 `AGENTS.md`도 읽습니다 |
+| claude.ai 채팅·Cowork | 설정 → 기능 → 스킬에서 `reduction-equations.zip` 업로드 |
+| ChatGPT 채팅·프로젝트 | `dist/reduction-equations-chatgpt/설치방법.md` — 같은 폴더의 ZIP과 프로젝트 지침 |
+
+ZIP은 `dist/` 폴더에 있습니다. GitHub에서 파일을 열고 다운로드 버튼(Download raw file)을 누르면 됩니다.
 
 "감축사업 수식 만들어줘", "모니터링 인자 표 KCS 서식으로", "환경부 외부사업 서식으로 워드 만들어줘",
 "이 방법론 수식 가져와서 PPT로" 같은 요청에 쓰입니다.
