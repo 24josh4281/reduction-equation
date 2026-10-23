@@ -27,6 +27,18 @@ Python 3.10 이상이 필요합니다. `.venv`를 만들고 `python-pptx`를 설
 | claude.ai 채팅·Cowork | 설정 → 기능 → 스킬에서 `reduction-equations.zip` 업로드 |
 | ChatGPT 채팅·프로젝트 | `dist/reduction-equations-chatgpt/설치방법.md` — 같은 폴더의 ZIP과 프로젝트 지침 |
 
+## 팀용 웹 편집기 (Tailscale 주소)
+
+항상 켜 두는 PC에 Tailscale을 설치·로그인한 뒤, 이 저장소를 받아 `setup.ps1`을 실행하고 아래를 한 번 실행합니다.
+
+```
+powershell -ExecutionPolicy Bypass -File scripts\equation_editor\serve_tailscale.ps1 -Install
+```
+
+같은 Tailscale 네트워크의 누구나 `https://<PC이름>.<tailnet>.ts.net:10001/`에서 수식을 입력하고
+**Word 내보내기·PPT 내보내기** 버튼으로 바로 받습니다. 그 PC에 로그인할 때마다 자동으로 켜집니다.
+포트는 `-HttpsPort 10002`처럼 바꿀 수 있고, 해제는 `-Uninstall`입니다.
+
 ZIP은 `dist/` 폴더에 있습니다. GitHub에서 파일을 열고 다운로드 버튼(Download raw file)을 누르면 됩니다.
 
 "감축사업 수식 만들어줘", "모니터링 인자 표 KCS 서식으로", "환경부 외부사업 서식으로 워드 만들어줘",

@@ -39,7 +39,7 @@ description: Turn roughly typed GHG reduction-project formulas (감축사업 산
    python office_equations.py verify <출력 파일>
    ```
 6. **눈으로 확인한다.** PPT와 Word를 PowerPoint·Word(또는 LibreOffice)에서 PDF로 내보내 페이지를 본다. 수식 잘림·표 넘침·기호 깨짐이 없어야 완료다. 렌더하지 못했으면 "렌더 미확인"이라고 보고한다.
-7. **사용자가 직접 고치고 싶어 하면** 웹 편집기를 띄운다: `powershell -ExecutionPolicy Bypass -File scripts/equation_editor/start_equation_editor.ps1 [--plan plan.json]` (macOS·Linux: `.venv/bin/python scripts/equation_editor/server.py`). 편집기에서 저장한 JSON을 다시 4~5단계에 쓴다.
+7. **사용자가 직접 고치고 싶어 하면** 웹 편집기를 띄운다: `powershell -ExecutionPolicy Bypass -File scripts/equation_editor/start_equation_editor.ps1 [--plan plan.json]` (macOS·Linux: `.venv/bin/python scripts/equation_editor/server.py`). 편집기에서 저장한 JSON을 다시 4~5단계에 쓴다. 팀이 함께 쓸 상시 주소가 필요하면 Tailscale이 깔린 PC에서 `equation_editor/serve_tailscale.ps1 -Install`을 실행한다(`https://<PC>.<tailnet>.ts.net:10001/`, 로그인 때 자동 시작, 해제는 `-Uninstall`).
 
 기존 Word·PPT 초안 안에 수식만 넣을 때는 `office_equations.py inject-docx` / `inject-pptx`를 쓰고, 토큰 표는 `monitoring_plan.py spec plan.json -o spec.json`으로 만든다(`{{sym:Q_PJ.j.y}}`처럼 쉼표는 마침표).
 
